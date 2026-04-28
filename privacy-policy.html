@@ -15,48 +15,14 @@
       padding: 0 24px 80px;
       line-height: 1.7;
     }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 40px;
-    }
-    .logo-name {
-      font-size: 20px;
-      font-weight: 700;
-      color: #6366f1;
-    }
-    h1 {
-      font-size: 26px;
-      font-weight: 700;
-      color: #1e293b;
-      margin-bottom: 6px;
-    }
-    .updated {
-      font-size: 13px;
-      color: #94a3b8;
-      margin-bottom: 36px;
-    }
-    h2 {
-      font-size: 16px;
-      font-weight: 600;
-      color: #1e293b;
-      margin: 32px 0 10px;
-    }
-    p {
-      font-size: 15px;
-      color: #475569;
-      margin-bottom: 12px;
-    }
-    ul {
-      padding-left: 20px;
-      margin-bottom: 12px;
-    }
-    li {
-      font-size: 15px;
-      color: #475569;
-      margin-bottom: 6px;
-    }
+    .logo { display: flex; align-items: center; gap: 10px; margin-bottom: 40px; }
+    .logo-name { font-size: 20px; font-weight: 700; color: #6366f1; }
+    h1 { font-size: 26px; font-weight: 700; color: #1e293b; margin-bottom: 6px; }
+    .updated { font-size: 13px; color: #94a3b8; margin-bottom: 36px; }
+    h2 { font-size: 16px; font-weight: 600; color: #1e293b; margin: 32px 0 10px; }
+    p  { font-size: 15px; color: #475569; margin-bottom: 12px; }
+    ul { padding-left: 20px; margin-bottom: 12px; }
+    li { font-size: 15px; color: #475569; margin-bottom: 6px; }
     .highlight {
       background: #f1f5f9;
       border-left: 3px solid #6366f1;
@@ -68,6 +34,12 @@
     }
     a { color: #6366f1; text-decoration: none; }
     a:hover { text-decoration: underline; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 14px; }
+    th {
+      background: #f8fafc; color: #64748b; font-weight: 600;
+      text-align: left; padding: 10px 14px; border: 1px solid #e2e8f0;
+    }
+    td { padding: 10px 14px; border: 1px solid #e2e8f0; color: #475569; vertical-align: top; }
   </style>
 </head>
 <body>
@@ -81,33 +53,78 @@
   <div class="updated">Last updated: April 2026</div>
 
   <div class="highlight">
-    TypoShell does not collect, store, or transmit any personal data. All processing happens entirely within your browser.
+    TypoShell does not collect, store, or share any personal data. All text processing happens entirely within your browser, on your device.
   </div>
 
   <h2>What TypoShell does</h2>
-  <p>TypoShell is a Chrome extension that converts mistyped text between English and Hebrew keyboard layouts. It detects wrong-language input and offers automatic corrections as you type.</p>
+  <p>TypoShell is a Chrome extension that converts mistyped text between English and Hebrew keyboard layouts. It detects wrong-language input and offers corrections as you type.</p>
 
   <h2>Data collection</h2>
-  <p>TypoShell does <strong>not</strong> collect any data. Specifically:</p>
+  <p>TypoShell does <strong>not</strong> collect any user data. The table below summarises what is and is not accessed:</p>
+  <table>
+    <tr><th>Data type</th><th>Collected?</th><th>Notes</th></tr>
+    <tr>
+      <td>Text you type or select</td>
+      <td>❌ No</td>
+      <td>Processed locally in memory only; never recorded or transmitted.</td>
+    </tr>
+    <tr>
+      <td>Browsing history or page content</td>
+      <td>❌ No</td>
+      <td>Not accessed beyond the currently selected or typed text.</td>
+    </tr>
+    <tr>
+      <td>Personal information (name, email, etc.)</td>
+      <td>❌ No</td>
+      <td>Never collected at any point.</td>
+    </tr>
+    <tr>
+      <td>Individual words (dictionary check)</td>
+      <td>⚠️ Limited</td>
+      <td>A single word at a time is sent to dictionaryapi.dev to verify whether it is valid English. No surrounding text, no page URL, and no identifying information is included.</td>
+    </tr>
+    <tr>
+      <td>User preferences (feature toggles)</td>
+      <td>✅ Locally only</td>
+      <td>Your on/off settings are stored in <code>chrome.storage.sync</code> on your device. This data never leaves Google's infrastructure and is not accessible to TypoShell's developer.</td>
+    </tr>
+  </table>
+
+  <h2>Data handling</h2>
+  <p>All text analysis — language detection, keyboard-layout conversion, and auto-correct suggestions — is performed entirely in your browser using JavaScript. No text is sent to any server operated by TypoShell or its developer.</p>
+
+  <h2>Data storage</h2>
+  <p>TypoShell stores only your feature preferences (on/off toggles) using the browser's built-in <code>chrome.storage.sync</code> API. This data:</p>
   <ul>
-    <li>No text you type or select is ever recorded or stored.</li>
-    <li>No browsing history or page content is accessed beyond what is necessary to detect selected text.</li>
-    <li>No personal information is collected at any point.</li>
+    <li>Contains no personal information — only boolean on/off flags.</li>
+    <li>Is stored by Chrome on your device and optionally synced via your Google account, subject to <a href="https://policies.google.com/privacy" target="_blank">Google's Privacy Policy</a>.</li>
+    <li>Can be cleared at any time by removing the extension.</li>
   </ul>
+  <p>No other data is written to disk, localStorage, cookies, or any external database.</p>
+
+  <h2>Data sharing</h2>
+  <p>TypoShell does <strong>not</strong> share any user data with third parties, with one narrow exception:</p>
+  <ul>
+    <li>
+      <strong>dictionaryapi.dev</strong> — When auto-correct is active, a single word is sent to the free <a href="https://dictionaryapi.dev" target="_blank">dictionaryapi.dev</a> API to check whether it is valid English. Only the isolated word is transmitted — no surrounding text, no page content, no cookies, and no identifying information.
+    </li>
+  </ul>
+  <p>No data is sold, rented, or shared with advertisers or analytics platforms.</p>
 
   <h2>Permissions explained</h2>
   <ul>
-    <li><strong>storage</strong> — Reserved for future user preferences (e.g. settings). Currently stores nothing.</li>
-    <li><strong>activeTab</strong> — Required to interact with the page you are currently viewing.</li>
-    <li><strong>scripting</strong> — Required to inject the toolbar and correction UI into web pages.</li>
-    <li><strong>clipboardWrite</strong> — Used only to copy converted text when the target element is not editable.</li>
+    <li><strong>activeTab</strong> — Required to read selected or typed text on the current page in order to offer corrections.</li>
+    <li><strong>scripting</strong> — Required to inject the correction toolbar and suggestion UI into web pages.</li>
+    <li><strong>storage</strong> — Used to save your feature-toggle preferences.</li>
+    <li><strong>clipboardWrite</strong> — Used only to copy converted text when the target element is not directly editable.</li>
+    <li><strong>host_permissions (&lt;all_urls&gt;)</strong> — Required so the extension can operate on any website, not just a predefined list.</li>
   </ul>
 
-  <h2>Third-party services</h2>
-  <p>TypoShell uses the free <a href="https://dictionaryapi.dev" target="_blank">dictionaryapi.dev</a> API to verify whether typed words are valid English. Only the individual word being checked is sent — no surrounding text, no page content, and no identifying information.</p>
+  <h2>Children's privacy</h2>
+  <p>TypoShell does not knowingly collect any information from children under the age of 13, nor is it directed at children.</p>
 
   <h2>Changes to this policy</h2>
-  <p>If this policy changes, the updated version will be published at this URL with a new date.</p>
+  <p>If this policy changes, the updated version will be published at this URL with a new "Last updated" date.</p>
 
   <h2>Contact</h2>
   <p>Questions? Reach out at <a href="mailto:idor70339@gmail.com">idor70339@gmail.com</a></p>
